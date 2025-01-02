@@ -1,0 +1,20 @@
+services:
+  minio:
+    image: minio/minio:latest
+    container_name: minio
+    ports:
+      - "9000:9000" # Porta para API do MinIO
+      - "9001:9001" # Porta para interface web administrativa
+    environment:
+      MINIO_ROOT_USER: "admin" # Usuário root
+      MINIO_ROOT_PASSWORD: "admin123" # Senha root (deve ter no mínimo 8 caracteres)
+    volumes:
+      - ./.docker/minio_data:/data # Persistência de dados
+      - ./.docker/minio_config:/root/.minio # Persistência das configurações
+    command: server /data --console-address ":9001"
+
+volumes:
+  minio_data:
+    driver: local
+  minio_config:
+    driver: local
